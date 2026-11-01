@@ -37,7 +37,7 @@
 <header>
     <h1>Select the Player to add to the Team</h1>
 </header>
-<!-- Display the errorMessage here (only if it exists), using the "error" class -->
+<p class="error" th:if="${errorMessage != null}" th:text="${errorMessage}"></p>
 <section>
     <h2>Select player:</h2>
     <form action="/teamDetails" method="POST">
@@ -55,15 +55,15 @@
     <table>
         <tr>
             <td><b>Team ID</b></td>
-            <td><!-- Display selected teamId --></td>
+            <td th:text="${team.id}"></td>
         </tr>
         <tr>
             <td><b>Team Name</b></td>
-            <td><!-- Display team name --></td>
+            <td th:text="${team.name}"></td>
         </tr>
         <tr>
             <td><b>City</b></td>
-            <td><!-- Display team city --></td>
+            <td th:text="${team.city}"></td>
         </tr>
     </table>
 </aside>

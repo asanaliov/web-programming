@@ -23,7 +23,7 @@
     <form action="/players" method="GET">
        <div th:each="t: ${teams}">
            <input type="radio" name="teamId" th:value="${t.id}" required>
-           <span th:text="${t.name} + ', City: ' + ${t.city} + ', Players: ' + ${t.players.size()}"></span>
+           <span th:text="'Name: ' + ${t.name} + ', City: ' + ${t.city} + ', Players: ' + ${t.players.size()}"></span>
            <br>
        </div>
         <input type="submit" value="Submit">

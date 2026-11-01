@@ -32,14 +32,14 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team addPlayerToTeam(Long teamId, String playerId) {
         Team team = findById(teamId);
-        Player player = playerRepository.findByPlayerId(playerId).orElseThrow(IllegalAccessError::new);
+        Player player = playerRepository.findByPlayerId(playerId).orElseThrow(IllegalArgumentException::new);
 
         teamRepository.findAll().stream()
                 .filter(t -> t.getPlayers().stream()
                         .anyMatch(p -> p.getPlayerId().equals(playerId)))
                 .findFirst()
                 .ifPresent(t -> {
-                    throw new IllegalArgumentException("Player already plays for " + team.getName());
+                    throw new IllegalArgumentException("Player already plays for " + t.getName());
                 });
         boolean jerseyTaken = team.getPlayers().stream()
                 .anyMatch(p -> p.getJerseyNumber() == player.getJerseyNumber());
