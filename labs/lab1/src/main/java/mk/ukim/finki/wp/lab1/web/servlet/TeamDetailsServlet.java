@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-@WebServlet(name = "TeamDetailsServlet", urlPatterns = "/teamDetails")
+@WebServlet(name = "TeamDetailsServlet", urlPatterns = "/servlet/teamDetails")
 public class TeamDetailsServlet extends HttpServlet {
     private final TeamService teamService;
     private final SpringTemplateEngine springTemplateEngine;
@@ -30,7 +30,7 @@ public class TeamDetailsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String teamIdParam = req.getParameter("teamId");
         if (teamIdParam == null || teamIdParam.isBlank()) {
-            resp.sendRedirect("/teams");
+            resp.sendRedirect("/servlet/teams");
             return;
         }
 
@@ -38,7 +38,7 @@ public class TeamDetailsServlet extends HttpServlet {
         try {
             team = teamService.findById(Long.parseLong(teamIdParam));
         } catch (IllegalArgumentException e) {
-            resp.sendRedirect("/teams");
+            resp.sendRedirect("/servlet/teams");
             return;
         }
 
@@ -58,7 +58,7 @@ public class TeamDetailsServlet extends HttpServlet {
         String playerId = req.getParameter("playerId");
 
         if (teamIdParam == null || teamIdParam.isBlank()) {
-            resp.sendRedirect("/teams");
+            resp.sendRedirect("/servlet/teams");
             return;
         }
 
@@ -67,10 +67,10 @@ public class TeamDetailsServlet extends HttpServlet {
                 throw new IllegalArgumentException("Please select a player");
             }
             teamService.addPlayerToTeam(Long.parseLong(teamIdParam), playerId);
-            resp.sendRedirect("/teamDetails?teamId=" + teamIdParam);
+            resp.sendRedirect("/servlet/teamDetails?teamId=" + teamIdParam);
         } catch (IllegalArgumentException e) {
             String message = URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8);
-            resp.sendRedirect("/players?teamId=" + teamIdParam + "&errorMessage=" + message);
+            resp.sendRedirect("/servlet/players?teamId=" + teamIdParam + "&errorMessage=" + message);
         }
     }
 }

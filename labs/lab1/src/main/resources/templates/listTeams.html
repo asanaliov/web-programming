@@ -12,18 +12,54 @@
         h1 {
             color: #333;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, td, th {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        .error {
+            color: red;
+        }
     </style>
 </head>
 <body>
 <header>
     <h1>Welcome to the Team Manager</h1>
 </header>
+<p class="error" th:if="${errorMessage != null}" th:text="${errorMessage}"></p>
 <main>
+    <h2>All teams:</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>City</th>
+            <th>League</th>
+            <th>Players</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="t : ${teams}">
+            <td th:text="${t.name}"></td>
+            <td th:text="${t.city}"></td>
+            <td th:text="${t.league?.name}"></td>
+            <td th:text="${t.players.size()}"></td>
+            <td>
+                <a th:href="@{/teams/team-form/{id}(id=${t.id})}">Edit</a>
+                <form style="display: inline" th:action="@{/teams/delete/{id}(id=${t.id})}" method="POST">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+    </table>
+    <p><a href="/teams/team-form">Add new team</a></p>
+
     <h2>Choose a team:</h2>
     <form action="/players" method="GET">
        <div th:each="t: ${teams}">
            <input type="radio" name="teamId" th:value="${t.id}" required>
-           <span th:text="'Name: ' + ${t.name} + ', City: ' + ${t.city} + ', Players: ' + ${t.players.size()}"></span>
+           <span th:text="'Name: ' + ${t.name} + ', City: ' + ${t.city} + ', League: ' + ${t.league?.name} + ', Players: ' + ${t.players.size()}"></span>
            <br>
        </div>
         <input type="submit" value="Submit">
