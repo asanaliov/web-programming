@@ -15,7 +15,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
-@WebServlet(name = "PlayerServlet", urlPatterns = "/players")
+@WebServlet(name = "PlayerServlet", urlPatterns = "/servlet/players")
 public class PlayerServlet extends HttpServlet {
 
     private final PlayerService playerService;
@@ -33,13 +33,14 @@ public class PlayerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String teamIdParam = req.getParameter("teamId");
         if (teamIdParam == null || teamIdParam.isBlank()){
-            resp.sendRedirect("/teams");
+            resp.sendRedirect("/servlet/teams");
+            return;
         }
         Team team;
         try{
             team = teamService.findById(Long.parseLong(teamIdParam));
         } catch (IllegalArgumentException e){
-            resp.sendRedirect("/teams");
+            resp.sendRedirect("/servlet/teams");
             return;
         }
         IWebExchange webExchange = JakartaServletWebApplication

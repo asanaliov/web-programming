@@ -13,7 +13,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
-@WebServlet(name = "TeamListServlet", urlPatterns = "/teams")
+@WebServlet(name = "TeamListServlet", urlPatterns = "/servlet/teams")
 public class TeamListServlet extends HttpServlet {
     private final TeamService teamService;
     private final SpringTemplateEngine springTemplateEngine;

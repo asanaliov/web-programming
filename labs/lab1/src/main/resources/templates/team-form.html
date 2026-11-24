@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title th:text="${team} ? 'Edit Team' : 'Add Team'"></title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1 th:text="${team} ? 'Edit Team' : 'Add New Team'"></h1>
+</header>
+<main>
+    <form method="POST" th:action="${team} ? @{/teams/edit/{id}(id=${team.id})} : @{/teams/add}">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" th:value="${team?.name}">
+
+        <label for="city">City</label>
+        <input type="text" id="city" name="city" th:value="${team?.city}">
+
+        <label for="leagueId">League</label>
+        <select id="leagueId" name="leagueId">
+            <option th:each="l : ${leagues}"
+                    th:value="${l.id}"
+                    th:text="${l.name}"
+                    th:selected="${team?.league?.id == l.id}"></option>
+        </select>
+        <br><br>
+        <input type="submit" value="Submit">
+        <a href="/teams">Back</a>
+    </form>
+</main>
+</body>
+</html>

@@ -43,7 +43,7 @@
     <form action="/teamDetails" method="POST">
         <input type="hidden" name="teamId" th:value="${team.id}">
         <div th:each="p : ${players}">
-            <input type="radio" name="playerId" th:value="${p.playerId}" required>
+            <input type="radio" name="playerId" th:value="${p.playerId}">
             <span th:text="${p.firstName} + ' ' + ${p.lastName} + ' (#' + ${p.jerseyNumber} + ', ' + ${p.position} + ')'"></span>
             <br/>
         </div>
@@ -64,6 +64,10 @@
         <tr>
             <td><b>City</b></td>
             <td th:text="${team.city}"></td>
+        </tr>
+        <tr>
+            <td><b>League</b></td>
+            <td th:text="${team.league?.name}"></td>
         </tr>
     </table>
 </aside>
